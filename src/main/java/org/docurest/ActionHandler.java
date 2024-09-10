@@ -2,7 +2,7 @@ package org.docurest;
 
 import lombok.Getter;
 
-public abstract class ActionHandler<D, ACT> {
+public abstract class ActionHandler<ACT> {
 
     @Getter
     protected final Class<ACT> actionClass;

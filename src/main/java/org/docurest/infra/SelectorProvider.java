@@ -1,16 +1,16 @@
 package org.docurest.infra;
 
 import lombok.extern.slf4j.Slf4j;
-import org.docurest.DocumentMapper;
+import org.docurest.RegisteredDocumentMapper;
 
 import java.util.*;
 
 @Slf4j
 public class SelectorProvider {
 
-    private final List<DocumentMapper<?, ?>> mappers = new ArrayList<>();
+    private final List<RegisteredDocumentMapper<?, ?>> mappers = new ArrayList<>();
 
-    public void registerMapper(DocumentMapper<?, ?> mapper) {
+    public void registerMapper(RegisteredDocumentMapper<?, ?> mapper) {
         mappers.add(mapper);
     }
 

@@ -3,20 +3,14 @@ package org.docurest.infra;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.docurest.ActionHandler;
-import org.docurest.Document;
 import org.docurest.DocumentConfig;
-import org.docurest.DocumentMapper;
-import org.docurest.queries.filter.Filter;
+import org.docurest.RegisteredDocumentMapper;
 import org.docurest.security.UserAuthDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -25,16 +19,16 @@ public class BaseInfra implements InfraContract {
     private final SelectorProvider selectorProvider = new SelectorProvider();
     private final Map<Class<?>, StringParserMutator<?>> stringImportMutator = new HashMap<>();
     private final Map<Class<?>, Mutator<?>> regularMutator = new HashMap<>();
-    private final Map<Class<?>, ActionHandler<?, ?>> actionHandlers = new HashMap<>();
+    private final Map<Class<?>, ActionHandler<?>> actionHandlers = new HashMap<>();
 
     // Registration
     // ------------
 
-    public void registerMapper(DocumentMapper<?, ?> mapper) {
+    public void registerMapper(RegisteredDocumentMapper<?, ?> mapper) {
         selectorProvider.registerMapper(mapper);
     }
 
-    public void registerActionHandler(ActionHandler<?, ?> handler) {
+    public void registerActionHandler(ActionHandler<?> handler) {
         actionHandlers.put(handler.getActionClass(), handler);
     }
 
@@ -60,7 +54,7 @@ public class BaseInfra implements InfraContract {
     }
 
     @Override
-    public <T> ActionHandler<?, ?> getActionHandler(Class<T> clazz) {
+    public <T> ActionHandler<?> getActionHandler(Class<T> clazz) {
         return actionHandlers.get(clazz);
     }
 

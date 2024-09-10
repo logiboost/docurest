@@ -9,7 +9,7 @@ public interface InfraContract {
 
     <T> Selector<T> getSelector(Class<T> clazz);
 
-    <T> ActionHandler<?, ?> getActionHandler(Class<T> clazz);
+    <T> ActionHandler<?> getActionHandler(Class<T> clazz);
 
     Mutator<String> getStringImportMutator(Class<?> clazz);
 
