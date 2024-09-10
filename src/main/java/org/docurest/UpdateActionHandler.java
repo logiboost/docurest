@@ -1,6 +1,6 @@
 package org.docurest;
 
-public abstract class UpdateActionHandler<D, ACT> extends ActionHandler<D, ACT> {
+public abstract class UpdateActionHandler<D, ACT> extends ActionHandler<ACT> {
 
     protected UpdateActionHandler(Infra infra, Class<ACT> actionClass) {
         super(infra, actionClass);

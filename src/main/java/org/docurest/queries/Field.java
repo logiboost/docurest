@@ -1,21 +1,12 @@
-package org.docurest.queries.types;
+package org.docurest.queries;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Field implements Leaf {
-
-    private String path;
+public record Field(@NotNull String path) implements Leaf {
 
     @Override
     public String toCouchbaseQuery() {

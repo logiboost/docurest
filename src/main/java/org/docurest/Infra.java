@@ -7,11 +7,12 @@ import org.docurest.infra.BaseInfra;
 import org.docurest.infra.InfraContract;
 import org.docurest.infra.Mutator;
 import org.docurest.infra.Selector;
-import org.docurest.queries.filter.Filter;
+import org.docurest.queries.Filter;
 import org.docurest.security.UserAuthDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -36,7 +37,7 @@ public class Infra implements InfraContract {
     }
 
     @Override
-    public <T> ActionHandler<?, ?> getActionHandler(Class<T> clazz) {
+    public <T> ActionHandler<?> getActionHandler(Class<T> clazz) {
         return baseInfra.getActionHandler(clazz);
     }
 
@@ -71,6 +72,10 @@ public class Infra implements InfraContract {
 
     public <T> void upsert(Class<T> clazz, Document<T> document) {
         getMutator(clazz).upsert(Stream.of(document));
+    }
+
+    public <T> Consumer<Document<T>> upserter(Class<T> clazz) {
+        return (Document<T> doc) -> upsert(clazz, doc);
     }
 
     public UserAuthDetails requireUserAuthDetails() {

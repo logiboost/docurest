@@ -9,11 +9,11 @@ import com.couchbase.client.java.query.QueryResult;
 import lombok.RequiredArgsConstructor;
 import org.docurest.infra.DatabaseDriver;
 import org.docurest.Document;
-import org.docurest.queries.filter.And;
-import org.docurest.queries.filter.Eq;
-import org.docurest.queries.filter.Filter;
-import org.docurest.queries.types.Field;
-import org.docurest.queries.types.StringValue;
+import org.docurest.queries.And;
+import org.docurest.queries.Eq;
+import org.docurest.queries.Filter;
+import org.docurest.queries.Field;
+import org.docurest.queries.StringValue;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -33,13 +33,13 @@ public class CouchbaseDatabaseDriver<T> implements DatabaseDriver<T> {
 
     @Override
     public Stream<Document<String>> select(Filter filter) {
-        final var withTypeFilter = And.builder()
-                .leftMember(Eq.builder()
-                        .leftMember(new Field("docType"))
-                        .rightMember(new StringValue(docType))
-                        .build())
-                .rightMember(filter)
-                .build();
+        final var withTypeFilter = new And(
+                new Eq(
+                        new Field("docType"),
+                        new StringValue(docType)
+                ),
+                filter
+        );
 
         String query = String.format("SELECT META().id AS docId, _default.* FROM `_default` WHERE %s", withTypeFilter.toCouchbaseQuery());
         System.out.println("Final query: " + query);
@@ -50,8 +50,12 @@ public class CouchbaseDatabaseDriver<T> implements DatabaseDriver<T> {
     @Override
     public Optional<Document<String>> findById(String id) {
         Collection collection = couchbaseBucket.defaultCollection();
-        GetResult result = collection.get(id);
-        return Optional.of(new CouchbaseDocument(result.contentAsObject()));
+        try {
+            GetResult result = collection.get(id);
+            return Optional.of(new CouchbaseDocument(result.contentAsObject()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
 }

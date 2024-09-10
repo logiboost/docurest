@@ -3,7 +3,7 @@ package org.docurest.controllers;
 import jakarta.annotation.security.PermitAll;
 import lombok.Data;
 import org.docurest.infra.InfraAware;
-import org.docurest.queries.filter.Filter;
+import org.docurest.queries.Filter;
 import org.docurest.security.JwtUtil;
 import org.docurest.security.UserAuthDetails;
 import org.springframework.beans.factory.annotation.Autowired;

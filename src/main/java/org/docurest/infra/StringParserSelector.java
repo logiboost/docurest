@@ -1,7 +1,7 @@
 package org.docurest.infra;
 
 import org.docurest.Document;
-import org.docurest.queries.filter.Filter;
+import org.docurest.queries.Filter;
 import org.docurest.versioning.MigrationChain;
 
 import java.util.Optional;
